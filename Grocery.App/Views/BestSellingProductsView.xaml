@@ -25,7 +25,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <!-- PLaats hier de header velden voor de tabel-->
+                    <Label Text="ID" FontAttributes="Bold" Grid.Column="0"/>
                 </Grid>
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
@@ -37,7 +37,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <!-- PLaats hier de datavelden voor de tabel-->
+                        <Label Text="{Binding Name}" Grid.Column="0"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
