@@ -10,8 +10,8 @@ on:
       - main
 
 jobs:
-  # Dotnet core build en tests
-  dotnet-core:
+  # Core libraries and tests (cross-platform)
+  core:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,75 +22,104 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore Grocery.sln
+      - name: Restore core projects
+        run: |
+          dotnet restore Grocery.Core.Data/Grocery.Core.Data.csproj
+          dotnet restore Grocery.Core/Grocery.Core.csproj
+          dotnet restore Grocery.Tests/Grocery.Tests.csproj
 
-      - name: Build core libraries
+      - name: Build core projects
         run: |
           dotnet build Grocery.Core.Data/Grocery.Core.Data.csproj -c Release --no-restore
           dotnet build Grocery.Core/Grocery.Core.csproj -c Release --no-restore
 
       - name: Run unit tests
-        run: dotnet test Grocery.sln -c Release --no-build --no-restore
+        run: dotnet test Grocery.Tests/Grocery.Tests.csproj -c Release --no-build --no-restore
 
-  # Windows build en tests
-  windows:
+  # MAUI Windows build
+  maui-windows:
     runs-on: windows-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup .NET 8 SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
-      - name: Cache NuGet packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ runner.os }}-${{ hashFiles('**/packages.lock.json', '**/*.csproj') }}
-          restore-keys: |
-            nuget-windows-
-
-      - name: Install MAUI workloads
+      - name: Install MAUI Windows workload
         run: |
           dotnet workload install maui-windows
           dotnet workload restore
 
-      - name: Restore dependencies
+      - name: Restore MAUI project for Windows
         run: dotnet restore Grocery.App/Grocery.App.csproj
 
-      - name: Build Windows project
-        run: dotnet build Grocery.sln -c Release -f net8.0-windows --no-restore
+      - name: Build MAUI Windows
+        run: dotnet build Grocery.App/Grocery.App.csproj -c Release -f net8.0-windows --no-restore
 
-  # Android build en tests
-  android:
+  # MAUI Android build
+  maui-android:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup .NET 8 SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: nuget-android-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            nuget-android-
 
       - name: Install MAUI Android workload
         run: |
           dotnet workload install maui-android
           dotnet workload restore
 
-      - name: Restore dependencies (Android)
-        run: dotnet restore Grocery.sln -p:TargetFramework=net8.0-android
+      - name: Restore MAUI project for Android
+        run: dotnet restore Grocery.App/Grocery.App.csproj
 
-      - name: Build Android project
-        run: dotnet build Grocery.sln -c Release -f net8.0-android --no-restore
+      - name: Build MAUI Android
+        run: dotnet build Grocery.App/Grocery.App.csproj -c Release -f net8.0-android --no-restore
+
+  # MAUI iOS build
+  maui-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install MAUI iOS workload
+        run: |
+          dotnet workload install maui-ios
+          dotnet workload restore
+
+      - name: Restore MAUI project for iOS
+        run: dotnet restore Grocery.App/Grocery.App.csproj
+
+      - name: Build MAUI iOS
+        run: dotnet build Grocery.App/Grocery.App.csproj -c Release -f net8.0-ios --no-restore
+
+  # MAUI MacCatalyst build
+  maui-maccatalyst:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install MAUI MacCatalyst workload
+        run: |
+          dotnet workload install maui-maccatalyst
+          dotnet workload restore
+
+      - name: Restore MAUI project for MacCatalyst
+        run: dotnet restore Grocery.App/Grocery.App.csproj
+
+      - name: Build MAUI MacCatalyst
+        run: dotnet build Grocery.App/Grocery.App.csproj -c Release -f net8.0-maccatalyst --no-restore
