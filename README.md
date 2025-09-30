@@ -25,7 +25,6 @@ Zoals:
 Wanneer er een bug in de Main branch wordt gevonden, wordt er een hotfix branch gemaakt vanuit Main.
 Zoals:
 - hotfix/v1.0.1
-# GroceryApp sprint3 Studentversie  
 
 ## UC10 Productaantal in boodschappenlijst
 Aanpassingen zijn compleet.
