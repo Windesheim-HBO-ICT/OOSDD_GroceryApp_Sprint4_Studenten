@@ -18,9 +18,12 @@ namespace Grocery.Core.Services
             _clientRepository=clientRepository;
             _productRepository=productRepository;
         }
-        public List<BoughtProducts> Get(int? productId)
+        public IEnumareble<(Client client, GroceryList list, Product product)> Get(int productId)
         {
-            throw new NotImplementedException();
+            var groceryLists = _groceryListRepository.GetAll();
+            return groceryLists 
+                .Where(_groceryListItemsRepository => list.Products.Any(p => p.Id == productId))
+                .Select(list => (list.Client, list, list.Products.First(p => p.Id == productId)));
         }
     }
 }

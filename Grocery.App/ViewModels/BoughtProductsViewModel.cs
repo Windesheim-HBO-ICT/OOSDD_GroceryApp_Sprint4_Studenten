@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using Grocery.Core.Services;
 using System.Collections.ObjectModel;
 
 
@@ -16,15 +17,20 @@ namespace Grocery.App.ViewModels
         public ObservableCollection<BoughtProducts> BoughtProductsList { get; set; } = [];
         public ObservableCollection<Product> Products { get; set; }
 
-        public BoughtProductsViewModel(IBoughtProductsService boughtProductsService, IProductService productService)
+        public BoughtProductsViewModel(IBoughtProductsService boughtProductsService)
         {
             _boughtProductsService = boughtProductsService;
-            Products = new(productService.GetAll());
+            BoughtProducts = new ObservableCollection<Client, GroceryList, Product>();
         }
 
-        partial void OnSelectedProductChanged(Product? oldValue, Product newValue)
+        partial void OnSelectedProductChanged(Product product)
         {
-            //Zorg dat de lijst BoughtProductsList met de gegevens die passen bij het geselecteerde product. 
+            var items = _boughtProductsService.Get(product.Id); 
+            BoughtProducts.Clear();
+            foreach (var item in items)
+            {
+                BoughtProducts.Add(item);
+            }
         }
 
         [RelayCommand]

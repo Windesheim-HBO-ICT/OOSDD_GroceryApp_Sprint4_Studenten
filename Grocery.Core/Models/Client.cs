@@ -11,4 +11,5 @@ namespace Grocery.Core.Models
             Password=password;
         }
     }
-}
+    public Role Role { get; set; } = Role.None;
+    }

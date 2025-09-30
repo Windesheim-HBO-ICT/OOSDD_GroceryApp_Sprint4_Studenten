@@ -11,7 +11,7 @@ namespace Grocery.App.ViewModels
         public ObservableCollection<GroceryList> GroceryLists { get; set; }
         private readonly IGroceryListService _groceryListService;
 
-        public GroceryListViewModel(IGroceryListService groceryListService) 
+        public GroceryListViewModel(IGroceryListService groceryListService)
         {
             Title = "Boodschappenlijst";
             _groceryListService = groceryListService;
@@ -34,6 +34,10 @@ namespace Grocery.App.ViewModels
         {
             base.OnDisappearing();
             GroceryLists.Clear();
+        }
+        public async void showBoughtProducts()
+        {
+            await Shell.Current.GoToAsync(nameof(Views.BoughtProductsView));
         }
     }
 }
