@@ -19,7 +19,7 @@
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
             </CollectionView.ItemsLayout>
 
-            <!-- Tabelkop -->
+            <!--Tabelkop-->
             <CollectionView.Header>
                 <Grid Padding="5">
                     <Grid.ColumnDefinitions>
@@ -35,7 +35,7 @@
                 </Grid>
             </CollectionView.Header>
 
-            <!-- Datavelden -->
+            <!--Datavelden-->
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:BestSellingProducts">
                     <Grid Padding="5">
