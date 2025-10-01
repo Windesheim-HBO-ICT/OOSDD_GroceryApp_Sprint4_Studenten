@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Grocery.App.Views; // voor BoughtProductsView
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Interfaces.Repositories;
 using Grocery.Core.Models;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Alerts; //voor toast
 
 namespace Grocery.App.ViewModels
 {
@@ -48,11 +50,22 @@ namespace Grocery.App.ViewModels
         [RelayCommand]
         private async Task ShowBoughtProducts()
         {
-            if (CurrentClient?.Role == Role.Admin)
+            try
             {
-                await Shell.Current.GoToAsync(nameof(Views.BoughtProductsView));
+                if (CurrentClient?.Role == Role.Admin)
+                {
+                    await Shell.Current.GoToAsync(nameof(BoughtProductsView));
+                }
             }
-            // Anders: geen actie (conform UC13)
+            catch (Exception ex)
+            {
+                // Toon de fout in de output
+                System.Diagnostics.Debug.WriteLine($"Navigatie-fout: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+
+                // Optioneel: toon een toast
+                await Toast.Make($"Fout: {ex.Message}").Show();
+            }
         }
 
         public override void OnAppearing()

@@ -24,7 +24,7 @@
                 Title="Klik op onderstaand pijltje om een product te selecteren:"
                 ItemsSource="{Binding Products}"
                 SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-                BackgroundColor="{StaticResource Primary}"
+                BackgroundColor="Black"
                 TextColor="{StaticResource Secondary}" />
 
         <!-- Lijst met klanten en boodschappenlijsten -->

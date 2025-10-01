@@ -4,9 +4,10 @@ namespace Grocery.App.Views;
 
 public partial class BoughtProductsView : ContentPage
 {
-    public BoughtProductsView(BoughtProductsViewModel viewModel)
+    public BoughtProductsView()
     {
         InitializeComponent();
-        BindingContext = viewModel;
+        // opahlen bia ViewModel  Dependency Injection
+        BindingContext = App.Current.Handler.MauiContext.Services.GetRequiredService<BoughtProductsViewModel>();
     }
 }
