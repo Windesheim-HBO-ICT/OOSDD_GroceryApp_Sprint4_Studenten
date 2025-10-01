@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Grocery.Core.Models
 {
-    internal class Role
+    public enum Role
     {
-        public enum Role
-        {
-            None,
-            Admin
-        }
+        None,
+        Admin
     }
 }
