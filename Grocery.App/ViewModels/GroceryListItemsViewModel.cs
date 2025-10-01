@@ -117,6 +117,14 @@ namespace Grocery.App.ViewModels
             _groceryListItemsService.Update(item);
             item.Product.Stock++;
             _productService.Update(item.Product);
+
+            // Verwijder het item als de hoeveelheid 0 is
+            if (item.Amount == 0)
+            {
+                _groceryListItemsService.Delete(item); // Zorg dat deze methode bestaat in je service
+                MyGroceryListItems.Remove(item);
+            }
+
             OnGroceryListChanged(GroceryList);
         }
     }

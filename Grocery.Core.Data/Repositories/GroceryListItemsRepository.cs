@@ -38,7 +38,13 @@ namespace Grocery.Core.Data.Repositories
 
         public GroceryListItem? Delete(GroceryListItem item)
         {
-            throw new NotImplementedException();
+            var existing = groceryListItems.FirstOrDefault(g => g.Id == item.Id);
+            if (existing != null)
+            {
+                groceryListItems.Remove(existing);
+                return existing;
+            }
+            return null;
         }
 
         public GroceryListItem? Get(int id)
