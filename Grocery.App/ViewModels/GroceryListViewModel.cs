@@ -11,11 +11,18 @@ namespace Grocery.App.ViewModels
         public ObservableCollection<GroceryList> GroceryLists { get; set; }
         private readonly IGroceryListService _groceryListService;
 
-        public GroceryListViewModel(IGroceryListService groceryListService) 
+        [ObservableProperty]
+        Client client;
+        private readonly IClientService _clientService;
+
+        public GroceryListViewModel(IGroceryListService groceryListService, IClientService clientService) 
         {
             Title = "Boodschappenlijst";
             _groceryListService = groceryListService;
+            _clientService = clientService;
             GroceryLists = new(_groceryListService.GetAll());
+
+            client = _clientService.Get(GroceryLists.First().ClientId);
         }
 
         [RelayCommand]
@@ -34,6 +41,18 @@ namespace Grocery.App.ViewModels
         {
             base.OnDisappearing();
             GroceryLists.Clear();
+        }
+
+        [RelayCommand]
+        public void ShowBoughtProducts()
+        {
+            if (Client != null)
+            {
+                if (Client.Role == ClientRole.Admin)
+                {
+                    Shell.Current.GoToAsync(nameof(Views.BoughtProductsView));
+                }
+            }
         }
     }
 }

@@ -8,16 +8,16 @@
              Title="BoughtProductsView">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Title="Klik op onderstaand pijltje om een product te selecteren:"
         ItemsSource="{Binding Products}"
-        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
+        SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
         SelectedIndexChanged="Picker_SelectedIndexChanged"
         BackgroundColor="{StaticResource Primary}"
             TextColor="{StaticResource Secondary}">
@@ -28,19 +28,26 @@
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="m:BoughtProducts" >
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <!-- Toon hier de naam van de Client naam van de boodschappenlijst -->
+                    <DataTemplate x:DataType="m:BoughtProducts">
+                        <Grid Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0"
+                                Text="{Binding Client.Name}"
+                                FontAttributes="Bold"
+                                FontSize="16" />
+                            <Label Grid.Row="1"
+                                Text="{Binding GroceryList.Name}"
+                                FontSize="14"
+                                TextColor="Gray" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <Label Text="Er zijn geen verkochte producten" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Text="Er zijn geen verkochte producten" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center" />
                     </ContentView>
                 </CollectionView.EmptyView>
             </CollectionView>
