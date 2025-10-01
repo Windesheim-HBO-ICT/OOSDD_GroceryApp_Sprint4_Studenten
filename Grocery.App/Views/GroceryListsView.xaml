@@ -5,19 +5,28 @@
              xmlns:vm="clr-namespace:Grocery.App.ViewModels"
              xmlns:m="clr-namespace:Grocery.Core.Models;assembly=Grocery.Core"
              x:DataType="vm:GroceryListViewModel"
-             Title="GroceryListsView">
+             Title="Boodschappenlijsten">
+
+    <!-- UC13: ToolbarItem voor Admin-functionaliteit -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding CurrentClient.Name}"
+                     Command="{Binding ShowBoughtProductsCommand}" />
+    </ContentPage.ToolbarItems>
+
     <Shell.TitleView>
         <Grid>
             <Label Text="Boodschappenlijsten" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
         </Grid>
     </Shell.TitleView>
 
-    <Border Stroke="#C49B33"
-        StrokeThickness="4"
-        Padding="10"
-        Margin="10"
-        HorizontalOptions="Center">
-        <CollectionView x:Name="GroceryListView" ItemsSource="{Binding GroceryLists}" HorizontalOptions="Center"
+    <Border Stroke="Pink"
+            StrokeThickness="4"
+            Padding="10"
+            Margin="10"
+            HorizontalOptions="Center">
+        <CollectionView x:Name="GroceryListView" 
+                        ItemsSource="{Binding GroceryLists}" 
+                        HorizontalOptions="Center"
                         SelectionMode="Single"
                         SelectionChangedCommand="{Binding SelectGroceryListCommand}"
                         SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
