@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
 using System.Collections.ObjectModel;
+using System.Reflection.Metadata;
 
 namespace Grocery.App.ViewModels
 {
@@ -46,11 +47,13 @@ namespace Grocery.App.ViewModels
         [RelayCommand]
         public void ShowBoughtProducts()
         {
+            Console.WriteLine($"ShowBoughtProducts");
             if (Client != null)
             {
+                Console.WriteLine($"user -> {Client.Name}");
                 if (Client.Role == ClientRole.Admin)
                 {
-                    Shell.Current.GoToAsync(nameof(Views.BoughtProductsView));
+                    Shell.Current.GoToAsync($"{nameof(Views.BoughtProductsView)}", true);
                 }
             }
         }
