@@ -16,7 +16,7 @@
         </Grid>
     </Shell.TitleView>
 
-    <Border Stroke="#C49B33" StrokeThickness="4" Padding="10" Margin="10" HorizontalOptions="Center">
+    <Border Stroke="Pink" StrokeThickness="4" Padding="10" Margin="10" HorizontalOptions="Center">
         <CollectionView ItemsSource="{Binding Products}" 
                         Margin="20" 
                         HorizontalOptions="Center">
