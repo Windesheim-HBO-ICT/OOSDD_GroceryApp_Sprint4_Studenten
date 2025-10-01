@@ -24,6 +24,7 @@
                 Title="Klik op onderstaand pijltje om een product te selecteren:"
                 ItemsSource="{Binding Products}"
                 SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                ItemDisplayBinding="{Binding Name}"
                 BackgroundColor="Black"
                 TextColor="{StaticResource Secondary}" />
 
@@ -68,7 +69,7 @@
 
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <Label Text="Er zijn geen klanten die dit product hebben gekocht" 
+                        <Label Text="Geen klanten gevonden die dit product hebben gekocht" 
                                FontSize="16" 
                                FontAttributes="Italic" 
                                HorizontalTextAlignment="Center"
