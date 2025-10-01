@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 
 namespace Grocery.Core.Models
 {
@@ -6,8 +7,12 @@ namespace Grocery.Core.Models
     {
         public DateOnly Date { get; set; }
         public int ClientId { get; set; }
+
+        public Client Client { get; set; }
+        public List<Product> Products { get; set; } = new();
+
         [ObservableProperty]
-        public string color;
+        private string color;
 
         public GroceryList(int id, string name, DateOnly date, string color, int clientId) : base(id, name)
         {
@@ -17,6 +22,5 @@ namespace Grocery.Core.Models
             Color = color;
             ClientId = clientId;
         }
-
     }
 }
