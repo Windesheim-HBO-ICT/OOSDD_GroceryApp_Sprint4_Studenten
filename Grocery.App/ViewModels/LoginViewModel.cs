@@ -1,45 +1,42 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Grocery.Core.Interfaces.Services;
+using Grocery.Core.Data.Repositories;
 using Grocery.Core.Models;
+using Microsoft.Maui.Controls; // voor Application.Current
 
 namespace Grocery.App.ViewModels
 {
-    public partial class LoginViewModel : BaseViewModel
+    public partial class LoginViewModel : ObservableObject
     {
-        private readonly IAuthService _authService;
-        private readonly GlobalViewModel _global;
+        private readonly ClientRepository _clientRepo;
 
         [ObservableProperty]
-        private string email = "user3@mail.com";
+        private string email = string.Empty;
 
         [ObservableProperty]
-        private string password = "user3";
+        private string password = string.Empty;
 
-        [ObservableProperty]
-        private string loginMessage;
+        public IAsyncRelayCommand LoginCommand { get; }
 
-        public LoginViewModel(IAuthService authService, GlobalViewModel global)
-        { //_authService = App.Services.GetServices<IAuthService>().FirstOrDefault();
-            _authService = authService;
-            _global = global;
+        public LoginViewModel()
+        {
+            _clientRepo = new ClientRepository();
+            LoginCommand = new AsyncRelayCommand(LoginAsync);
         }
 
-        [RelayCommand]
-        private void Login()
+        private async Task LoginAsync()
         {
-            Client? authenticatedClient = _authService.Login(Email, Password);
-            if (authenticatedClient != null)
+            var client = _clientRepo.Get(Email);
+
+            if (client == null || client.Password != Password)
             {
-                LoginMessage = $"Welkom {authenticatedClient.Name}!";
-                _global.Client = authenticatedClient;
-                Application.Current.MainPage = new AppShell();
+                await Application.Current.MainPage.DisplayAlert("Fout", "Ongeldige inloggegevens", "OK");
+                return;
             }
-            else
-            {
-                LoginMessage = "Ongeldige inloggegevens.";
-            }
+
+            Application.Current.Properties["CurrentClientId"] = client.Id;
+
+            Application.Current.MainPage = new AppShell();
         }
     }
 }

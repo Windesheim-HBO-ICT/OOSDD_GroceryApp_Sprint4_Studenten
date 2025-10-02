@@ -24,20 +24,24 @@ namespace Grocery.App
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
+            // Services
             builder.Services.AddSingleton<IGroceryListService, GroceryListService>();
             builder.Services.AddSingleton<IGroceryListItemsService, GroceryListItemsService>();
             builder.Services.AddSingleton<IProductService, ProductService>();
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<IClientService, ClientService>();
             builder.Services.AddSingleton<IFileSaverService, FileSaverService>();
-            builder.Services.AddSingleton<IBoughtProductsService, BoughtProductsService>();
+            builder.Services.AddSingleton<BoughtProductsService>();
 
+            // Repositories
             builder.Services.AddSingleton<IGroceryListRepository, GroceryListRepository>();
             builder.Services.AddSingleton<IGroceryListItemsRepository, GroceryListItemsRepository>();
             builder.Services.AddSingleton<IProductRepository, ProductRepository>();
             builder.Services.AddSingleton<IClientRepository, ClientRepository>();
+
+            // ViewModels & Views
             builder.Services.AddSingleton<GlobalViewModel>();
 
             builder.Services.AddTransient<GroceryListsView>().AddTransient<GroceryListViewModel>();
@@ -47,6 +51,7 @@ namespace Grocery.App
             builder.Services.AddTransient<LoginView>().AddTransient<LoginViewModel>();
             builder.Services.AddTransient<BestSellingProductsView>().AddTransient<BestSellingProductsViewModel>();
             builder.Services.AddTransient<BoughtProductsView>().AddTransient<BoughtProductsViewModel>();
+
             return builder.Build();
         }
     }

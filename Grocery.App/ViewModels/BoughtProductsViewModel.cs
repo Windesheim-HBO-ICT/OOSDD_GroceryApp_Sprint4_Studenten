@@ -1,36 +1,47 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using Grocery.Core.Services;
 using System.Collections.ObjectModel;
-
+using System.Linq;
 
 namespace Grocery.App.ViewModels
 {
-    public partial class BoughtProductsViewModel : BaseViewModel
+    public partial class BoughtProductsViewModel : ObservableObject
     {
-        private readonly IBoughtProductsService _boughtProductsService;
+        private readonly BoughtProductsService _service;
 
         [ObservableProperty]
-        Product selectedProduct;
-        public ObservableCollection<BoughtProducts> BoughtProductsList { get; set; } = [];
-        public ObservableCollection<Product> Products { get; set; }
+        private ObservableCollection<BoughtProductItem> products = new();
 
-        public BoughtProductsViewModel(IBoughtProductsService boughtProductsService, IProductService productService)
+        [ObservableProperty]
+        private ObservableCollection<Product> allProducts = new();
+
+        public BoughtProductsViewModel(BoughtProductsService service)
         {
-            _boughtProductsService = boughtProductsService;
-            Products = new(productService.GetAll());
+            _service = service;
+
+            var productsFromService = _service.GetAllProducts();
+            AllProducts = new ObservableCollection<Product>(productsFromService);
         }
 
-        partial void OnSelectedProductChanged(Product? oldValue, Product newValue)
+        public void OnSelectedProductChanged(int productId)
         {
-            //Zorg dat de lijst BoughtProductsList met de gegevens die passen bij het geselecteerde product. 
+            var items = _service.Get(productId)
+                .Select(x => new BoughtProductItem
+                {
+                    Client = x.Client,
+                    GroceryList = x.GroceryList,
+                    Product = x.Product
+                })
+                .ToList();
+
+            Products = new ObservableCollection<BoughtProductItem>(items);
         }
 
-        [RelayCommand]
         public void NewSelectedProduct(Product product)
         {
-            SelectedProduct = product;
+            if (product == null) return;
+            OnSelectedProductChanged(product.Id);
         }
     }
 }

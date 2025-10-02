@@ -6,6 +6,7 @@ namespace Grocery.Core.Models
     {
         public DateOnly Date { get; set; }
         public int ClientId { get; set; }
+
         [ObservableProperty]
         public string color;
 
@@ -17,6 +18,5 @@ namespace Grocery.Core.Models
             Color = color;
             ClientId = clientId;
         }
-
     }
 }
