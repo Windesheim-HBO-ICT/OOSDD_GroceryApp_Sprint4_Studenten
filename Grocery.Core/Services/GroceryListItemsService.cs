@@ -66,10 +66,10 @@ namespace Grocery.Core.Services
                 .OrderByDescending(x => x.TotalAmount)
                 .ToList();
 
-            int i = 0;
+            int i = 1;
             foreach(var item in combinedItems)
             {
-                if(i == topX)
+                if(i == topX+1)
                 {
                     break;
                 }
@@ -77,7 +77,7 @@ namespace Grocery.Core.Services
                 i++;
             }
 
-
+            bestSellingProductsList = bestSellingProductsList.OrderBy(p => p.Ranking).ToList();
             return bestSellingProductsList;
         }
 
