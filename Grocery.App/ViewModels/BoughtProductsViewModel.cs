@@ -26,13 +26,12 @@ namespace Grocery.App.ViewModels
         {
             //Zorg dat de lijst BoughtProductsList met de gegevens die passen bij het geselecteerde product. 
             BoughtProductsList.Clear();
-            if (oldValue != null && newValue != null)
+            foreach (BoughtProducts boughtProduct in _boughtProductsService.Get(newValue.Id))
             {
-                foreach (var item in _boughtProductsService.Get(newValue.Id))
-                {
-                    BoughtProductsList.Add(item);
-                }
+                BoughtProductsList.Add(boughtProduct);
             }
+    
+            
         }
 
         [RelayCommand]
