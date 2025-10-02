@@ -18,6 +18,7 @@
         <Picker Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Title="Klik op onderstaand pijltje om een product te selecteren:"
         ItemsSource="{Binding Products}"
         SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
+        ItemDisplayBinding="{Binding Name}"
         SelectedIndexChanged="Picker_SelectedIndexChanged"
         BackgroundColor="{StaticResource Primary}"
             TextColor="{StaticResource Secondary}">
@@ -35,6 +36,9 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <!-- Toon hier de naam van de Client naam van de boodschappenlijst -->
+
+                            <Label Grid.Column="0" Text="{Binding GroceryList.Name}"/>
+                            <Label Grid.Column="1" Text="{Binding Client.Name}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
