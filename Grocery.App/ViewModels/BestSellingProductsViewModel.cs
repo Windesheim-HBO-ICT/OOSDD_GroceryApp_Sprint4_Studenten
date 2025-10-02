@@ -8,7 +8,7 @@ namespace Grocery.App.ViewModels
     public partial class BestSellingProductsViewModel : BaseViewModel
     {
         private readonly IGroceryListItemsService _groceryListItemsService;
-        public ObservableCollection<BestSellingProducts> Products { get; set; } = [];
+        public ObservableCollection<BestSellingProduct> Products { get; set; } = [];
         public BestSellingProductsViewModel(IGroceryListItemsService groceryListItemsService)
         {
             _groceryListItemsService = groceryListItemsService;
@@ -19,12 +19,12 @@ namespace Grocery.App.ViewModels
         public override void Load()
         {
             Products.Clear();
-            foreach (BestSellingProducts item in _groceryListItemsService.GetBestSellingProducts())
+            foreach (BestSellingProduct item in _groceryListItemsService.GetBestSellingProducts())
             {
                 Products.Add(item);
             }
         }
-
+        
         public override void OnAppearing()
         {
             Load();

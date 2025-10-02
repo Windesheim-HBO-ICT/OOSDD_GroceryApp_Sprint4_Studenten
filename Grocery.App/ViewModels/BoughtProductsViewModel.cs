@@ -13,7 +13,7 @@ namespace Grocery.App.ViewModels
 
         [ObservableProperty]
         Product selectedProduct;
-        public ObservableCollection<BoughtProducts> BoughtProductsList { get; set; } = [];
+        public ObservableCollection<BoughtProduct> BoughtProductsList { get; set; } = [];
         public ObservableCollection<Product> Products { get; set; }
 
         public BoughtProductsViewModel(IBoughtProductsService boughtProductsService, IProductService productService)
