@@ -35,6 +35,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <!-- Toon hier de naam van de Client naam van de boodschappenlijst -->
+                            <Label Text="{Binding Client.Name}" FontAttributes="Bold" FontSize="Medium"/>
+                            <Label Text="{Binding GroceryList.Name}" FontAttributes="Italic"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
