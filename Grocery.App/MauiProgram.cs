@@ -27,6 +27,7 @@ namespace Grocery.App
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<IGroceryListService, GroceryListService>();
+            builder.Services.AddSingleton<IBoughtProductsService, BoughtProductsService>();
             builder.Services.AddSingleton<IGroceryListItemsService, GroceryListItemsService>();
             builder.Services.AddSingleton<IProductService, ProductService>();
             builder.Services.AddSingleton<IAuthService, AuthService>();

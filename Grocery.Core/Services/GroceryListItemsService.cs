@@ -8,11 +8,13 @@ namespace Grocery.Core.Services
     {
         private readonly IGroceryListItemsRepository _groceriesRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IBoughtProductsService _boughtProductsService;
 
-        public GroceryListItemsService(IGroceryListItemsRepository groceriesRepository, IProductRepository productRepository)
+        public GroceryListItemsService(IGroceryListItemsRepository groceriesRepository, IProductRepository productRepository, IBoughtProductsService boughtProductsService)
         {
             _groceriesRepository = groceriesRepository;
             _productRepository = productRepository;
+            _boughtProductsService =  boughtProductsService;
         }
 
         public List<GroceryListItem> GetAll()
@@ -49,9 +51,24 @@ namespace Grocery.Core.Services
             return _groceriesRepository.Update(item);
         }
 
-        public List<BestSellingProducts> GetBestSellingProducts(int topX = 5)
+        public List<BestSellingProduct> GetBestSellingProducts(int topX = 5)
         {
-            throw new NotImplementedException();
+            List<BoughtProduct> boughtProducts = _boughtProductsService.Get();
+            List<BestSellingProduct> bestSellingProducts = _boughtProductsService.BoughtProductsToBestSellingProducts(boughtProducts);
+            
+            UpdateRankingOfBestSellingProducts(bestSellingProducts);
+            
+            return bestSellingProducts;
+        }
+        
+        private void UpdateRankingOfBestSellingProducts(List<BestSellingProduct> bestSellingProducts)
+        {
+            bestSellingProducts = bestSellingProducts.OrderByDescending(x => x.NrOfSells).ToList();
+
+            for (int i = 1; i <= bestSellingProducts.Count; i++)
+            {
+                bestSellingProducts[i - 1].Ranking = i;
+            }
         }
 
         private void FillService(List<GroceryListItem> groceryListItems)
