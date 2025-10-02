@@ -12,6 +12,7 @@ namespace Grocery.Core.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
+        public Client? Client { get; set; }
         public ClientService(IClientRepository clientRepository)
         {
             _clientRepository = clientRepository;
