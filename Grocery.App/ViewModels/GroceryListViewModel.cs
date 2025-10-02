@@ -10,12 +10,14 @@ namespace Grocery.App.ViewModels
     {
         public ObservableCollection<GroceryList> GroceryLists { get; set; }
         private readonly IGroceryListService _groceryListService;
+        public GlobalViewModel globalViewModel { get; }
 
-        public GroceryListViewModel(IGroceryListService groceryListService) 
+        public GroceryListViewModel(IGroceryListService groceryListService, GlobalViewModel global) 
         {
             Title = "Boodschappenlijst";
+            globalViewModel = global;
             _groceryListService = groceryListService;
-            GroceryLists = new(_groceryListService.GetAll());
+            GroceryLists = new(_groceryListService.GetByClientId(globalViewModel.Client.Id));
         }
 
         [RelayCommand]
@@ -27,13 +29,23 @@ namespace Grocery.App.ViewModels
         public override void OnAppearing()
         {
             base.OnAppearing();
-            GroceryLists = new(_groceryListService.GetAll());
+            GroceryLists = new(_groceryListService.GetByClientId(globalViewModel.Client.Id));
         }
 
         public override void OnDisappearing()
         {
             base.OnDisappearing();
             GroceryLists.Clear();
+        }
+
+        [RelayCommand]
+        public async Task ShowBoughtProducts()
+        {
+            // If the authenticated user is an Admin send them to the BoughtProductsPage
+            if (globalViewModel.Client.Role == Role.Admin)
+            {
+                await Shell.Current.GoToAsync($"{nameof(Views.BoughtProductsView)}?Titel={globalViewModel.Client.Name}", true);
+            }
         }
     }
 }

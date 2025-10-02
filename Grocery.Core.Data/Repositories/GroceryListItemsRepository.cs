@@ -15,6 +15,11 @@ namespace Grocery.Core.Data.Repositories
                 new GroceryListItem(3, 1, 3, 4),
                 new GroceryListItem(4, 2, 1, 2),
                 new GroceryListItem(5, 2, 2, 5),
+                new GroceryListItem(1, 4, 4, 3),
+                new GroceryListItem(2, 4, 2, 1),
+                new GroceryListItem(3, 5, 3, 4),
+                new GroceryListItem(4, 6, 1, 2),
+                new GroceryListItem(5, 6, 2, 5),
             ];
         }
 

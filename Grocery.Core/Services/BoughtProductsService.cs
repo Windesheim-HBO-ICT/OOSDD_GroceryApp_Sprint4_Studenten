@@ -41,10 +41,13 @@ namespace Grocery.Core.Services
                         Console.WriteLine($"Invalid product id given to {nameof(_productRepository.Get)}");
                         continue;
                     }
-
+                
                     groceryListItem.Product = product;
                 }
 
+                if (productId != null && groceryListItem.Product.Id != productId)
+                    continue;
+                
                 BoughtProduct boughtProduct = new BoughtProduct(client, groceryList, groceryListItem.Product);
                 boughtProducts.Add(boughtProduct);
             }
