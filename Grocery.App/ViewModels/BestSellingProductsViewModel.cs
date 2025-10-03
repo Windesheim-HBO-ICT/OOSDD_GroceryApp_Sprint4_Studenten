@@ -8,7 +8,7 @@ namespace Grocery.App.ViewModels
     public partial class BestSellingProductsViewModel : BaseViewModel
     {
         private readonly IGroceryListItemsService _groceryListItemsService;
-        public ObservableCollection<BestSellingProducts> Products { get; set; } = [];
+        public ObservableCollection<BestSellingProducts> Products { get; set; } = new ObservableCollection<BestSellingProducts>();
         public BestSellingProductsViewModel(IGroceryListItemsService groceryListItemsService)
         {
             _groceryListItemsService = groceryListItemsService;
