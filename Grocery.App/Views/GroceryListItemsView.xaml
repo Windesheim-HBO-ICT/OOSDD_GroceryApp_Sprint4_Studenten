@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:Grocery.App.ViewModels"
              x:Class="Grocery.App.Views.GroceryListItemsView"
              x:DataType="vm:GroceryListItemsViewModel"
+             x:Name="ThisPage"
              Title="GroceryListItemsView">
 
     <ContentPage.ToolbarItems>
@@ -40,11 +41,21 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Text="{Binding Product.Name}" VerticalOptions="Center"/>
                             <Label Grid.Column="1" Text="{Binding Amount}" VerticalOptions="Center" HorizontalOptions="End" Margin="0,0,10,0"/>
-                            <Grid Grid.Column="2">
-                                <Image Source="plus.png" WidthRequest="15" HeightRequest="15"/>
+                            <Grid Grid.Column="2" >
+                                <Image Source="plus.png" WidthRequest="15" HeightRequest="15">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GroceryListItemsViewModel}}, Path=IncreaseAmountCommand}"
+                                                          CommandParameter="{Binding ProductId}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </Grid>
-                            <Grid Grid.Column="3">
-                                <Image Source="min.png" WidthRequest="15" HeightRequest="15"/>
+                            <Grid Grid.Column="3" >
+                                <Image Source="min.png" WidthRequest="15" HeightRequest="15">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GroceryListItemsViewModel}}, Path=DecreaseAmountCommand}"
+                                                              CommandParameter="{Binding ProductId}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
                             </Grid>
                         </Grid>
                     </DataTemplate>

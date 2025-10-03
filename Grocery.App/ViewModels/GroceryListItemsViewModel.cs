@@ -37,6 +37,7 @@ namespace Grocery.App.ViewModels
         {
             MyGroceryListItems.Clear();
             foreach (var item in _groceryListItemsService.GetAllOnGroceryListId(id)) MyGroceryListItems.Add(item);
+            
             GetAvailableProducts();
         }
 
