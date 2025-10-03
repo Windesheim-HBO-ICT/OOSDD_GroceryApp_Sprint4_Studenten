@@ -2,9 +2,9 @@ using Grocery.App.ViewModels;
 
 namespace Grocery.App.Views;
 
-public partial class BoughtProductsView : ContentPage
+public partial class BestSellingProductsView : ContentPage
 {
-    public BoughtProductsView(BestSellingProductsViewModel viewModel)
+    public BestSellingProductsView(BestSellingProductsViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
@@ -13,19 +13,18 @@ public partial class BoughtProductsView : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is BestSellingProductsViewModel bindingContext)
+        if (BindingContext is BestSellingProductsViewModel vm)
         {
-            bindingContext.OnAppearing();
-
+            vm.OnAppearing();
         }
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        if (BindingContext is BestSellingProductsViewModel bindingContext)
+        if (BindingContext is BestSellingProductsViewModel vm)
         {
-            bindingContext.OnDisappearing();
+            vm.OnDisappearing();
         }
     }
 }

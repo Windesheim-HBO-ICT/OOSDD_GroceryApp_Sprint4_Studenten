@@ -36,6 +36,12 @@ namespace Grocery.App.ViewModels
         {
             _boughtProductsService = boughtProductsService;
             Products = new(productService.GetAll()); // Direct initialiseren
+
+            System.Diagnostics.Debug.WriteLine($"Aantal producten: {Products.Count}"); //tijdelijke test
+            foreach (var p in Products)
+            {
+                System.Diagnostics.Debug.WriteLine($"Product: {p.Name}"); //tijdelijke test
+            }
         }
 
         /// <summary>
