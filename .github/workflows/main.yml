@@ -35,4 +35,5 @@ jobs:
           dotnet build Grocery.Core/Grocery.Core.csproj -c Release --no-restore
 
       - name: Run unit tests
-        run: dotnet test TestCore/TestCore.csproj -c Release --no-build --no-restore
+        run: dotnet test TestCore/TestCore.csproj --configuration Release
+
