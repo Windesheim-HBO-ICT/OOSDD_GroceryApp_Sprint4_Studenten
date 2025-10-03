@@ -11,6 +11,8 @@ namespace Grocery.Core.Services
         private readonly IClientRepository _clientRepository;
         private readonly IProductRepository _productRepository;
         private readonly IGroceryListRepository _groceryListRepository;
+        
+        
         public BoughtProductsService(IGroceryListItemsRepository groceryListItemsRepository, IGroceryListRepository groceryListRepository, IClientRepository clientRepository, IProductRepository productRepository)
         {
             _groceryListItemsRepository=groceryListItemsRepository;
@@ -18,11 +20,32 @@ namespace Grocery.Core.Services
             _clientRepository=clientRepository;
             _productRepository=productRepository;
         }
+        
+        /// <summary>
+        /// Creates a list of BoughtProducts from all items in the GroceryListItemsRepository
+        /// </summary>
+        /// <param name="productId">Products with matching productId will be returned. If null, uses all products</param>
+        /// <returns>Returns list of BoughtProducts</returns>
         public List<BoughtProduct> Get(int? productId = null)
         {
             List<GroceryListItem> allItems = _groceryListItemsRepository.GetAll();
-            List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
+            List<BoughtProduct> boughtProducts = ItemsListToBoughtProductList(allItems);
 
+            if (productId != null)
+                boughtProducts = boughtProducts.Where(x => x.Product.Id == productId).ToList();
+            
+            return boughtProducts;
+        }
+        
+        /// <summary>
+        /// Creates a list of BoughtProducts from given GroceryListItems
+        /// Uses GroceryListRepository, ClientRepository and ProductRepository
+        /// </summary>
+        /// <returns>A list of all given items in a BoughtProduct</returns>
+        private List<BoughtProduct> ItemsListToBoughtProductList(List<GroceryListItem> allItems)
+        {
+            List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
+            
             foreach (var groceryListItem in allItems)
             {
                 GroceryList? groceryList = GetGroceryListById(groceryListItem.GroceryListId);
@@ -44,17 +67,19 @@ namespace Grocery.Core.Services
                 
                     groceryListItem.Product = product;
                 }
-
-                if (productId != null && groceryListItem.Product.Id != productId)
-                    continue;
                 
                 BoughtProduct boughtProduct = new BoughtProduct(client, groceryList, groceryListItem.Product);
                 boughtProducts.Add(boughtProduct);
             }
-            
+
             return boughtProducts;
         }
-
+        
+        /// <summary>
+        /// Turns a BoughtProduct list into a BestSellingProduct list. 
+        /// Does not use any outside respositories
+        /// </summary>
+        /// <returns>A list of BestSellingProducts based on given BoughtProducts</returns>
         public List<BestSellingProduct> BoughtProductsToBestSellingProducts(List<BoughtProduct> boughtProducts)
         {
             List<BestSellingProduct> bestSellingProducts = new List<BestSellingProduct>();
@@ -75,6 +100,11 @@ namespace Grocery.Core.Services
             return bestSellingProducts;
         }
         
+        /// <summary>
+        /// Gets GroceryList from GroceryListRepository singleton with given id
+        /// Writes to console in case of null being returned
+        /// </summary>
+        /// <returns>GroceryList with matching id</returns>
         private GroceryList? GetGroceryListById(int id)
         {
             GroceryList? groceryList = _groceryListRepository.Get(id);
@@ -87,6 +117,11 @@ namespace Grocery.Core.Services
             return groceryList;
         }
         
+        /// <summary>
+        /// Gets client from ClientRepository with matching id
+        /// Writes to console in the case that null is returned
+        /// </summary>
+        /// <returns></returns>
         private Client? GetClientById(int id)
         {
             Client? clientOfProduct = _clientRepository.Get(id);
