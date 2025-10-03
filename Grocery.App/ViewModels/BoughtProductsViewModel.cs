@@ -24,6 +24,23 @@ namespace Grocery.App.ViewModels
 
         partial void OnSelectedProductChanged(Product? oldValue, Product newValue)
         {
+            if (newValue == null)
+            {
+                BoughtProductsList.Clear();
+                return;
+            }
+
+            // Haal alle gekocht-producten voor het geselecteerde product
+            var boughtProducts = _boughtProductsService.GetAll()
+                .Where(bp => bp.Product.Id == newValue.Id)
+                .ToList();
+
+            // Update de ObservableCollection
+            BoughtProductsList.Clear();
+            foreach (var bp in boughtProducts)
+            {
+                BoughtProductsList.Add(bp);
+            }
             //Zorg dat de lijst BoughtProductsList met de gegevens die passen bij het geselecteerde product. 
         }
 
