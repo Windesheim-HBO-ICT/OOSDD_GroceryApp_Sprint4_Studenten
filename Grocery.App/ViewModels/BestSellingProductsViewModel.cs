@@ -9,6 +9,7 @@ namespace Grocery.App.ViewModels
     {
         private readonly IGroceryListItemsService _groceryListItemsService;
         public ObservableCollection<BestSellingProducts> Products { get; set; } = [];
+        public string Message { get; set; } = string.Empty;
         public BestSellingProductsViewModel(IGroceryListItemsService groceryListItemsService)
         {
             _groceryListItemsService = groceryListItemsService;
@@ -19,10 +20,25 @@ namespace Grocery.App.ViewModels
         public override void Load()
         {
             Products.Clear();
-            foreach (BestSellingProducts item in _groceryListItemsService.GetBestSellingProducts())
+            var topProducts = _groceryListItemsService.GetBestSellingProducts();
+
+            if (topProducts.Count == 0)
             {
-                Products.Add(item);
+                Message = "Er zijn nog geen artikelen verkocht.";
             }
+            else
+            {
+                Message = string.Empty;
+                foreach (var item in topProducts)
+                {
+                    Products.Add(item);
+                }
+            }
+
+            //foreach (BestSellingProducts item in _groceryListItemsService.GetBestSellingProducts())
+            //{
+            //    Products.Add(item);
+            //}
         }
 
         public override void OnAppearing()
