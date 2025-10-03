@@ -6,18 +6,29 @@
              xmlns:m="clr-namespace:Grocery.Core.Models;assembly=Grocery.Core"
              x:DataType="vm:GroceryListViewModel"
              Title="GroceryListsView">
+
+    <!-- ToolbarItem met client naam en command -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="{Binding ClientName}" 
+            Command="{Binding ShowBoughtProductsCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <!-- TitleView -->
     <Shell.TitleView>
         <Grid>
             <Label Text="Boodschappenlijsten" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
         </Grid>
     </Shell.TitleView>
 
+    <!-- CollectionView met boodschappenlijsten -->
     <Border Stroke="#C49B33"
-        StrokeThickness="4"
-        Padding="10"
-        Margin="10"
-        HorizontalOptions="Center">
-        <CollectionView x:Name="GroceryListView" ItemsSource="{Binding GroceryLists}" HorizontalOptions="Center"
+            StrokeThickness="4"
+            Padding="10"
+            Margin="10"
+            HorizontalOptions="Center">
+        <CollectionView x:Name="GroceryListView"
+                        ItemsSource="{Binding GroceryLists}"
                         SelectionMode="Single"
                         SelectionChangedCommand="{Binding SelectGroceryListCommand}"
                         SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
@@ -33,8 +44,9 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="15"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Text="{Binding Name}"/>
-                        <Label Grid.Column="1" Text="{Binding Date}" HorizontalOptions="End" Margin="0,0,10,0"/>
+
+                        <Label Grid.Column="0" Text="{Binding Name}" />
+                        <Label Grid.Column="1" Text="{Binding Date}" HorizontalOptions="End" Margin="0,0,10,0" />
                         <Rectangle Grid.Column="2" BackgroundColor="{Binding Color}" WidthRequest="15" HeightRequest="15" />
                     </Grid>
                 </DataTemplate>
