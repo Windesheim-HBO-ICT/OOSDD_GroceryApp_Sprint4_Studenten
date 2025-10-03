@@ -12,11 +12,20 @@
         </Grid>
     </Shell.TitleView>
 
+    <Label Text="{Binding Message}" 
+       HorizontalOptions="Center" 
+       VerticalOptions="Center"
+       FontSize="16"
+       TextColor="Red"
+       IsVisible="{Binding Message, Converter={StaticResource StringNotEmptyToBoolConverter}}"/>
+
     <Border Stroke="#C49B33" StrokeThickness="4" Padding="10" Margin="10" HorizontalOptions="Center">
         <CollectionView ItemsSource="{Binding Products}" Margin="20" HorizontalOptions="Center">
+
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
             </CollectionView.ItemsLayout>
+
             <CollectionView.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -25,9 +34,13 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <!-- PLaats hier de header velden voor de tabel-->
+                    <Label Text="Ranking" Grid.Column="0" FontAttributes="Bold" />
+                    <Label Text="Product" Grid.Column="1" FontAttributes="Bold" />
+                    <Label Text="Aantal verkocht" Grid.Column="2" FontAttributes="Bold" />
+                    <Label Text="Voorraad" Grid.Column="3" FontAttributes="Bold" />
                 </Grid>
             </CollectionView.Header>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="m:BestSellingProducts">
                     <Grid>
@@ -37,10 +50,15 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <!-- PLaats hier de datavelden voor de tabel-->
+                        <Label Text="{Binding Ranking}" Grid.Column="0"/>
+                        <Label Text="{Binding Name}" Grid.Column="1"/>
+                        <Label Text="{Binding NrOfSells}" Grid.Column="2"/>
+                        <Label Text="{Binding Stock}" Grid.Column="3"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
     </Border>
+
 </ContentPage>
